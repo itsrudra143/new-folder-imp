@@ -1,0 +1,214 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String        @id @default(uuid())
+  email          String        @unique
+  password       String
+  firstName      String
+  lastName       String
+  role           Role          @default(STUDENT)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  createdClasses Class[]       @relation("CreatedClasses")
+  enrollments    Enrollment[]
+  profile        Profile?
+  attempts       TestAttempt[]
+  createdTests   Test[]        @relation("CreatedTests")
+
+  @@map("users")
+}
+
+model Profile {
+  id         String  @id @default(uuid())
+  userId     String  @unique
+  rollNumber String? @unique
+  class      String?
+  batch      String?
+  mentor     String?
+  user       User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("profiles")
+}
+
+model Test {
+  id             String          @id @default(uuid())
+  title          String
+  description    String?
+  createdById    String
+  duration       Int             @default(60)
+  isPublished    Boolean         @default(false)
+  startTime      DateTime?
+  endTime        DateTime?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  isActive       Boolean         @default(false)
+  expiryDuration Int?
+  maxAttempts    Int             @default(1)
+  expiryUnit     String?         @default("days")
+  status         TestStatus      @default(DRAFT)
+  questions      Question[]
+  attempts       TestAttempt[]
+  classes        TestClass[]
+  createdBy      User            @relation("CreatedTests", fields: [createdById], references: [id])
+  calendarEvents CalendarEvent[]
+  requiresRecording Boolean      @default(true)
+
+  @@map("tests")
+}
+
+model Question {
+  id                  String       @id @default(uuid())
+  testId              String
+  text                String
+  type                QuestionType
+  required            Boolean      @default(false)
+  order               Int
+  programmingLanguage String?
+  starterCode         String?
+  answers             Answer[]
+  options             Option[]
+  testCases           TestCase[]
+  test                Test         @relation(fields: [testId], references: [id], onDelete: Cascade)
+
+  @@map("questions")
+}
+
+model Option {
+  id         String   @id @default(uuid())
+  questionId String
+  text       String
+  isCorrect  Boolean  @default(false)
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@map("options")
+}
+
+model TestAttempt {
+  id          String    @id @default(uuid())
+  testId      String
+  userId      String
+  startedAt   DateTime  @default(now())
+  submittedAt DateTime?
+  score       Float?
+  recordingUrl String?
+  answers     Answer[]
+  test        Test      @relation(fields: [testId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("test_attempts")
+}
+
+model Answer {
+  id            String      @id @default(uuid())
+  testAttemptId String
+  questionId    String
+  optionId      String?
+  textAnswer    String?
+  codeAnswer    String?
+  question      Question    @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  testAttempt   TestAttempt @relation(fields: [testAttemptId], references: [id], onDelete: Cascade)
+
+  @@map("answers")
+}
+
+model Class {
+  id          String       @id @default(uuid())
+  name        String
+  description String?
+  code        String       @unique
+  createdById String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  createdBy   User         @relation("CreatedClasses", fields: [createdById], references: [id])
+  enrollments Enrollment[]
+  tests       TestClass[]
+
+  @@map("classes")
+}
+
+model Enrollment {
+  id        String           @id @default(uuid())
+  userId    String
+  classId   String
+  status    EnrollmentStatus @default(PENDING)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  class     Class            @relation(fields: [classId], references: [id], onDelete: Cascade)
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, classId])
+  @@map("enrollments")
+}
+
+model TestClass {
+  id        String   @id @default(uuid())
+  testId    String
+  classId   String
+  createdAt DateTime @default(now())
+  class     Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
+  test      Test     @relation(fields: [testId], references: [id], onDelete: Cascade)
+
+  @@unique([testId, classId])
+  @@map("test_classes")
+}
+
+model TestCase {
+  id             String   @id @default(uuid())
+  questionId     String
+  input          String
+  expectedOutput String
+  visible        Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  question       Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@map("test_cases")
+}
+
+model CalendarEvent {
+  id          String    @id @default(uuid())
+  title       String
+  description String?
+  startTime   DateTime
+  endTime     DateTime?
+  isAllDay    Boolean   @default(false)
+  testId      String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  test        Test?     @relation(fields: [testId], references: [id], onDelete: Cascade)
+
+  @@map("calendar_events")
+}
+
+enum Role {
+  STUDENT
+  ADMIN
+}
+
+enum QuestionType {
+  MCQ
+  CHECKBOX
+  TEXT
+  CODING
+}
+
+enum EnrollmentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum TestStatus {
+  DRAFT
+  ACTIVE
+  COMPLETE
+  EXPIRED
+}

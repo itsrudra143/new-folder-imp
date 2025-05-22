@@ -1,0 +1,1036 @@
+/* dashboard.css */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+:root {
+  --primary-color: #003566;
+  --primary-light: #0353a4;
+  --primary-dark: #002855;
+  --secondary-color: #1aa0fa;
+  --secondary-light: #5ab8ff;
+  --accent-color: #ffd60a;
+  --light-bg: #f8f9fa;
+  --white: #ffffff;
+  --text-dark: #2d3748;
+  --text-muted: #718096;
+  --border-color: #e2e8f0;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --rounded-sm: 8px;
+  --rounded-md: 12px;
+  --rounded-lg: 16px;
+  --transition: all 0.3s ease;
+
+  /* Grade colors */
+  --grade-A-color: #4ade80;
+  --grade-APlus-color: #22c55e;
+  --grade-B-color: #facc15;
+  --grade-BPlus-color: #f59e0b;
+  --grade-C-color: #f87171;
+  --grade-D-color: #ef4444;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text-dark);
+  background-color: var(--light-bg);
+}
+
+.dashboard-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-header {
+  background-color: var(--white);
+  padding: 16px 32px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.dashboard-header h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.dashboard-nav {
+  display: flex;
+  gap: 24px;
+}
+
+.dashboard-nav span {
+  cursor: pointer;
+  padding: 6px 0;
+  position: relative;
+  color: var(--text-muted);
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.dashboard-nav span.active {
+  color: var(--primary-color);
+}
+
+.dashboard-nav span.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--primary-color);
+  border-radius: 2px;
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 32px;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Student details card */
+.student-details {
+  background: linear-gradient(
+    135deg,
+    var(--primary-dark) 0%,
+    var(--primary-light) 100%
+  );
+  border-radius: var(--rounded-lg);
+  padding: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  box-shadow: var(--shadow-md);
+  color: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+
+.student-details::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  border-radius: 50%;
+  transform: translate(50%, -50%);
+}
+
+.student-info {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.student-avatar {
+  width: 80px;
+  height: 80px;
+  background-color: var(--accent-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+.student-text h2 {
+  font-size: 28px;
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-label {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.info-value {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Final score radar */
+.final-score {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  font-family: "Poppins", sans-serif;
+}
+
+.score-radar {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  /* border: px solid rgba(255, 255, 255, 0.2); */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  margin-bottom: 12px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.score-radar:hover {
+  transform: scale(1.05);
+}
+
+.progress-circle {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  transform-origin: center;
+}
+
+.circle-background {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.2);
+  stroke-width: 10;
+}
+
+.circle-progress {
+  fill: none;
+  stroke: var(--accent-color, #ffd60a);
+  stroke-width: 10;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 10px rgba(255, 214, 10, 0.5));
+  transition: stroke-dashoffset 1s ease-in-out;
+}
+
+.score-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.score-percentage {
+  font-size: 38px;
+  font-weight: 700;
+  color: var(--white, #fff);
+  line-height: 1;
+}
+
+.score-grade {
+  font-size: 24px;
+  color: var(--accent-color, #ffd60a);
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+.grade-description {
+  font-size: 16px;
+  opacity: 0.8;
+  margin-top: 10px;
+  color: #ccc;
+}
+
+/* Dashboard grid layout */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.performance-highlights {
+  grid-column: span 12;
+}
+
+.marks-section {
+  grid-column: span 6;
+}
+
+.line-graph-section {
+  grid-column: span 6;
+}
+
+.activities-section {
+  grid-column: span 7;
+}
+
+.grade-details {
+  grid-column: span 5;
+}
+
+/* Section styling */
+.performance-highlights,
+.marks-section,
+.line-graph-section,
+.activities-section,
+.grade-details,
+.recommendation-section {
+  background-color: var(--white);
+  border-radius: var(--rounded-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary-dark);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.section-controls select {
+  padding: 8px 12px;
+  border-radius: var(--rounded-sm);
+  border: 1px solid var(--border-color);
+  background-color: var(--white);
+  font-size: 14px;
+  color: var(--text-dark);
+  cursor: pointer;
+}
+
+/* Performance Highlights */
+.highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.highlight-card {
+  background-color: var(--light-bg);
+  border-radius: var(--rounded-md);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: var(--transition);
+  border: 1px solid var(--border-color);
+}
+
+.highlight-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.highlight-icon {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.highlight-title {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.highlight-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 4px;
+}
+
+.highlight-detail {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.best-subject .highlight-icon {
+  color: var(--grade-A-color);
+}
+
+.needs-improvement .highlight-icon {
+  color: var(--grade-C-color);
+}
+
+.attendance .highlight-icon {
+  color: var(--grade-B-color);
+}
+
+.overall-rank .highlight-icon {
+  color: var(--accent-color);
+}
+
+/* Subject Cards */
+.subject-cards {
+  display: grid;
+  gap: 16px;
+}
+
+.subject-card {
+  background-color: var(--light-bg);
+  border-radius: var(--rounded-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  border-left: 4px solid var(--border-color);
+  transition: var(--transition);
+}
+
+.subject-card:hover {
+  transform: translateX(5px);
+  box-shadow: var(--shadow-sm);
+}
+
+.grade-A {
+  border-left-color: var(--grade-A-color);
+}
+
+.grade-APlus {
+  border-left-color: var(--grade-APlus-color);
+}
+
+.grade-B {
+  border-left-color: var(--grade-B-color);
+}
+
+.grade-BPlus {
+  border-left-color: var(--grade-BPlus-color);
+}
+
+.grade-C {
+  border-left-color: var(--grade-C-color);
+}
+
+.grade-D {
+  border-left-color: var(--grade-D-color);
+}
+
+.subject-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.subject-name {
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.subject-marks {
+  margin-top: auto;
+}
+
+.marks-bar {
+  height: 8px;
+  background-color: var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.marks-progress {
+  height: 100%;
+  transition: width 0.5s ease;
+}
+
+.grade-A-bg {
+  background-color: var(--grade-A-color);
+}
+
+.grade-APlus-bg {
+  background-color: var(--grade-APlus-color);
+}
+
+.grade-B-bg {
+  background-color: var(--grade-B-color);
+}
+
+.grade-BPlus-bg {
+  background-color: var(--grade-BPlus-color);
+}
+
+.grade-C-bg {
+  background-color: var(--grade-C-color);
+}
+
+.grade-D-bg {
+  background-color: var(--grade-D-color);
+}
+
+.marks-text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+.grade-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: white;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+/* Line graph */
+.line-graph-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: var(--light-bg);
+  border-radius: var(--rounded-md);
+  overflow: hidden;
+}
+
+.line-graph {
+  width: 100%;
+  height: 400px;
+}
+
+.axis-line {
+  stroke: var(--text-muted);
+  stroke-width: 2;
+}
+
+.grid-line {
+  stroke: var(--border-color);
+  stroke-width: 1;
+  opacity: 0.5;
+}
+
+.axis-label {
+  font-size: 12px;
+  fill: var(--text-muted);
+  font-weight: 500;
+}
+
+.data-area {
+  fill: rgba(26, 160, 250, 0.1);
+}
+
+.data-line {
+  fill: none;
+  stroke: var(--secondary-color);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.data-point-glow {
+  fill: rgba(26, 160, 250, 0.3);
+}
+
+.data-point {
+  fill: var(--secondary-color);
+  stroke: white;
+  stroke-width: 2;
+}
+
+.data-label {
+  font-size: 12px;
+  fill: var(--primary-dark);
+  font-weight: 600;
+}
+
+/* Activities */
+.activities-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.activity-item {
+  background-color: var(--light-bg);
+  border-radius: var(--rounded-md);
+  padding: 20px;
+  transition: var(--transition);
+  border: 1px solid var(--border-color);
+}
+
+.activity-item:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-sm);
+}
+
+.activity-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+
+.activity-icon {
+  font-size: 24px;
+}
+
+.activity-label {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.activity-grade-indicator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.activity-grade {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: white;
+  font-size: 14px;
+}
+
+.activity-progress-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.activity-progress {
+  height: 8px;
+  background-color: var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--secondary-color),
+    var(--secondary-light)
+  );
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.progress-text {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+/* Grade Distribution */
+.grade-chart {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 180px;
+  margin-bottom: 20px;
+}
+
+.grade-bar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.grade-label {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.grade-bar {
+  height: 130px;
+  width: 24px;
+  background-color: var(--light-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column-reverse;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.grade-bar-fill {
+  border-radius: 12px;
+  width: 100%;
+  transition: height 0.5s ease;
+}
+
+.grade-bar::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -8px;
+  width: 40px;
+  height: 3px;
+  background-color: rgba(0, 0, 0, 0.1);
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+.grade-range {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.grade-legend {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.legend-marker {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.legend-marker.your-grade {
+  background-color: var(--secondary-color);
+}
+
+.legend-marker.class-average {
+  background-color: var(--text-muted);
+  opacity: 0.5;
+}
+
+/* Recommendation Section */
+.recommendation-section {
+  background-color: var(--white);
+  border-radius: var(--rounded-lg);
+  padding: 24px;
+}
+
+.recommendation-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.recommendation-card {
+  background-color: var(--light-bg);
+  border-radius: var(--rounded-md);
+  padding: 20px;
+  display: flex;
+  gap: 16px;
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+}
+
+.recommendation-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--secondary-color);
+}
+
+.recommendation-icon {
+  font-size: 32px;
+  color: var(--primary-color);
+}
+
+.recommendation-content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--primary-dark);
+}
+
+.recommendation-content p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Additional enrichments to make the dashboard more interesting */
+
+/* Add gradient overlays */
+.performance-highlights::after,
+.grade-details::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(
+    circle,
+    rgba(26, 160, 250, 0.05) 0%,
+    rgba(26, 160, 250, 0) 70%
+  );
+  border-radius: 50%;
+  z-index: 0;
+}
+
+/* Add animated pulse effect to best subject */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(74, 222, 128, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
+  }
+}
+
+.best-subject {
+  animation: pulse 2s infinite;
+}
+
+/* Add hover effects for interactive elements */
+.dashboard-nav span:hover {
+  color: var(--primary-color);
+}
+
+/* Add card flip effect on hover for recommendation cards */
+.recommendation-card {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.recommendation-card:hover .recommendation-icon {
+  transform: rotateY(180deg);
+  transition: transform 0.5s ease;
+}
+
+/* Enhance the progress circles with gradient strokes */
+.circle-progress {
+  stroke: url(#gradient);
+}
+
+/* Add subtle texture to backgrounds */
+.dashboard-content {
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.5) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.5) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: -1px -1px;
+}
+
+/* Add box-shadow transitions on hover */
+.student-details:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+/* Animate the data line on load */
+@keyframes drawLine {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.data-line {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawLine 1.5s forwards ease-in-out;
+}
+
+/* Add interesting pattern to recommendation section */
+.recommendation-section {
+  background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Create staggered animation for subject cards */
+.subject-card {
+  animation: fadeIn 0.5s forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.subject-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.subject-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.subject-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.subject-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.subject-card:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+/* Add glossy effect to student avatar */
+.student-avatar {
+  position: relative;
+  overflow: hidden;
+}
+
+.student-avatar::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(30deg);
+  pointer-events: none;
+}
+
+/* Add responsiveness for smaller screens */
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .performance-highlights {
+    grid-column: span 6;
+  }
+
+  .marks-section,
+  .line-graph-section {
+    grid-column: span 6;
+  }
+
+  .activities-section,
+  .grade-details {
+    grid-column: span 6;
+  }
+
+  .highlights-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .recommendation-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .student-details {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .activities-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+}
+
+/* Add a glowing effect to the overall score */
+.score-radar::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 214, 10, 0.2) 0%,
+    rgba(255, 214, 10, 0) 70%
+  );
+  filter: blur(10px);
+  z-index: -1;
+}
+
+/* Add a subtle hover effect to grade chart bars */
+.grade-bar-fill:hover {
+  transform: scaleY(1.05);
+  transition: transform 0.3s ease;
+}
+
+/* Create an interesting pattern for the graph background */
+.line-graph-container {
+  background-image: radial-gradient(
+      circle,
+      rgba(26, 160, 250, 0.03) 1px,
+      transparent 1px
+    ),
+    radial-gradient(circle, rgba(26, 160, 250, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+}
+
+/* Add a subtle shine effect to the dashboard header */
+.dashboard-header::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    rgba(26, 160, 250, 0),
+    rgba(26, 160, 250, 0.3),
+    rgba(26, 160, 250, 0)
+  );
+}
