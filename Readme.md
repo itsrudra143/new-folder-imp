@@ -69,7 +69,7 @@ Chitkara University, Punjab
 | Rudrakshi | 2210990747 |
 | Rishab Pahwa | 2210990724 |
 | Samarth Sehdev | 2210990773 |
-| Shikhar Gussain | 2210990780 |
+| Shikhar Gussain | 2210990820 |
 
 ---
 
